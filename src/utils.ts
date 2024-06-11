@@ -39,13 +39,10 @@ export function tween(
   durationInFrames: number,
   [from, to]: [number, number]
 ) {
-  if (frame < delayInFrames) {
-    return from;
-  }
-  if (frame > delayInFrames + durationInFrames) {
-    return to;
-  }
-  return interpolate(frame - delayInFrames, [0, durationInFrames], [from, to]);
+  return interpolate(frame - delayInFrames, [0, durationInFrames], [from, to], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 }
 
 export function tweenColor(
