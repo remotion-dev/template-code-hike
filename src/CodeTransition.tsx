@@ -6,7 +6,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { Pre, HighlightedCode } from "codehike/code";
-import React, { useLayoutEffect, useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import {
   calculateTransitions,
   getStartingSnapshot,
@@ -46,7 +46,18 @@ export function CodeTransition({
       return;
     }
 
-    const transitions = calculateTransitions(ref.current!, snapshot);
+    continueRender(handle);
+  }, [handle, snapshot]);
+
+  useEffect(() => {
+    if (!snapshot) {
+      return;
+    }
+    if (!ref.current) {
+      return;
+    }
+
+    const transitions = calculateTransitions(ref.current, snapshot);
 
     for (const transition of transitions) {
       const { element, keyframes, options } = transition;
@@ -67,9 +78,7 @@ export function CodeTransition({
         progress,
       });
     }
-
-    continueRender(handle);
-  }, [durationInFrames, fps, frame, handle, snapshot]);
+  }, [durationInFrames, fps, frame, snapshot]);
 
   return (
     <Pre

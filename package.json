@@ -8,6 +8,7 @@
   "dependencies": {
     "@remotion/cli": "4.0.172",
     "@remotion/google-fonts": "4.0.172",
+    "@remotion/animation-utils": "4.0.172",
     "@mdx-js/loader": "3.0.1",
     "@mdx-js/react": "3.0.1",
     "react": "^18.0.0",
