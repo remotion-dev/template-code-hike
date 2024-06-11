@@ -1,4 +1,3 @@
-import React from "react";
 import { useCurrentFrame } from "remotion";
 import { tweenColor } from "../utils";
 import { AnnotationHandler } from "codehike/code";
