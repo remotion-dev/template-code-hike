@@ -7,6 +7,7 @@ import {
 } from "remotion";
 import { Pre, HighlightedCode, AnnotationHandler } from "codehike/code";
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+
 import {
   calculateTransitions,
   getStartingSnapshot,
@@ -39,6 +40,10 @@ export function CodeTransition({
   const prevCode: HighlightedCode = useMemo(() => {
     return oldCode || { ...newCode, tokens: [], annotations: [] };
   }, [newCode, oldCode]);
+
+  const code = useMemo(() => {
+    return snapshot ? newCode : prevCode;
+  }, [newCode, prevCode, snapshot]);
 
   useLayoutEffect(() => {
     if (!snapshot) {
@@ -93,12 +98,5 @@ export function CodeTransition({
     };
   }, []);
 
-  return (
-    <Pre
-      ref={ref}
-      code={snapshot ? newCode : prevCode}
-      handlers={handlers}
-      style={style}
-    />
-  );
+  return <Pre ref={ref} code={code} handlers={handlers} style={style} />;
 }

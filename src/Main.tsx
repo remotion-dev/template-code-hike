@@ -16,6 +16,7 @@ export const Main = (props: { steps: HighlightedCode[] }) => {
         <Series>
           {steps.map((step, index) => (
             <Series.Sequence
+              key={index}
               layout="none"
               durationInFrames={stepDuration}
               name={step.meta}
