@@ -1,4 +1,9 @@
-import { continueRender, delayRender, useCurrentFrame } from "remotion";
+import {
+  continueRender,
+  delayRender,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import { Pre, AnnotationHandler, HighlightedCode } from "codehike/code";
 import React, { useLayoutEffect, useState } from "react";
 import {
@@ -23,6 +28,7 @@ export function CodeTransition({
   durationInFrames?: number;
 }) {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const ref = React.useRef<HTMLPreElement>(null);
   const [snapshot, setSnapshot] = useState<TokenTransitionsSnapshot>();
   const [handle] = React.useState(() => delayRender());
@@ -43,10 +49,11 @@ export function CodeTransition({
         frame,
         frameDelay: durationInFrames * options.delay,
         frameDuration: durationInFrames * options.duration,
+        fps,
       });
     });
     continueRender(handle);
-  }, [durationInFrames, frame, handle, snapshot]);
+  }, [durationInFrames, fps, frame, handle, snapshot]);
 
   return (
     <Pre

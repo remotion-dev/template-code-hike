@@ -1,5 +1,5 @@
 import { TokenTransition } from "codehike/utils/token-transitions";
-import { interpolate, interpolateColors } from "remotion";
+import { interpolate, interpolateColors, spring } from "remotion";
 
 export function tweenStyle({
   element,
@@ -7,12 +7,14 @@ export function tweenStyle({
   frame,
   frameDelay,
   frameDuration,
+  fps,
 }: {
   element: HTMLElement;
   keyframes: TokenTransition["keyframes"];
   frame: number;
   frameDelay: number;
   frameDuration: number;
+  fps: number;
 }) {
   const { translateX, translateY, color, opacity } = keyframes;
   if (opacity) {
@@ -21,6 +23,7 @@ export function tweenStyle({
       delayInFrames: frameDelay,
       durationInFrames: frameDuration,
       range: opacity,
+      fps,
     }).toString();
   }
   if (color) {
@@ -37,12 +40,14 @@ export function tweenStyle({
       delayInFrames: frameDelay,
       durationInFrames: frameDuration,
       range: translateX!,
+      fps,
     });
     const y = tween({
       frame,
       delayInFrames: frameDelay,
       durationInFrames: frameDuration,
       range: translateY!,
+      fps,
     });
     element.style.translate = `${x}px ${y}px`;
   }
@@ -53,16 +58,25 @@ export function tween({
   delayInFrames,
   durationInFrames,
   range,
+  fps,
 }: {
   frame: number;
   delayInFrames: number;
   durationInFrames: number;
   range: [number, number];
+  fps: number;
 }) {
-  return interpolate(frame - delayInFrames, [0, durationInFrames], range, {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
+  const progress = spring({
+    frame,
+    fps,
+    config: {
+      damping: 200,
+    },
+    delay: delayInFrames,
+    durationInFrames,
+    durationRestThreshold: 0.01,
   });
+  return interpolate(progress, [0, 1], range);
 }
 
 export function tweenColor({
