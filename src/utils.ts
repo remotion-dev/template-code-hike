@@ -16,39 +16,27 @@ export function tweenStyle({
   frameDuration: number;
   fps: number;
 }) {
+  const progress = spring({
+    frame,
+    fps,
+    config: {
+      damping: 200,
+    },
+    delay: frameDelay,
+    durationInFrames: frameDuration,
+    durationRestThreshold: 0.01,
+  });
+
   const { translateX, translateY, color, opacity } = keyframes;
   if (opacity) {
-    element.style.opacity = tween({
-      frame,
-      delayInFrames: frameDelay,
-      durationInFrames: frameDuration,
-      range: opacity,
-      fps,
-    }).toString();
+    element.style.opacity = interpolate(progress, [0, 1], opacity).toString();
   }
   if (color) {
-    element.style.color = tweenColor({
-      frame,
-      delay: frameDelay,
-      duration: frameDuration,
-      range: color,
-    });
+    element.style.color = interpolateColors(progress, [0, 1], color);
   }
   if (translateX || translateY) {
-    const x = tween({
-      frame,
-      delayInFrames: frameDelay,
-      durationInFrames: frameDuration,
-      range: translateX!,
-      fps,
-    });
-    const y = tween({
-      frame,
-      delayInFrames: frameDelay,
-      durationInFrames: frameDuration,
-      range: translateY!,
-      fps,
-    });
+    const x = interpolate(progress, [0, 1], translateX!);
+    const y = interpolate(progress, [0, 1], translateY!);
     element.style.translate = `${x}px ${y}px`;
   }
 }
