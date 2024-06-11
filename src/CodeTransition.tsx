@@ -14,7 +14,6 @@ import {
   TokenTransitionsSnapshot,
 } from "codehike/utils/token-transitions";
 import { applyStyle } from "./utils";
-import { mark } from "./annotations/Mark";
 import { callout } from "./annotations/Callout";
 
 import { loadFont } from "@remotion/google-fonts/RobotoMono";
@@ -86,13 +85,13 @@ export function CodeTransition({
   }, [durationInFrames, fps, frame, snapshot]);
 
   const handlers: AnnotationHandler[] = useMemo(() => {
-    return [inlineBlockTokens, mark, callout];
+    return [inlineBlockTokens, callout];
   }, []);
 
   const style: React.CSSProperties = useMemo(() => {
     return {
       position: "relative",
-      fontSize: 20,
+      fontSize: 40,
       lineHeight: 1.5,
       fontFamily,
     };

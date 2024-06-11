@@ -11,12 +11,12 @@ export function ProgressBar({ steps }: { steps: unknown[] }) {
     <div
       style={{
         position: "absolute",
-        top: 24,
-        left: 24,
-        right: 24,
-        height: 3,
+        top: 48,
+        left: 48,
+        right: 48,
+        height: 6,
         display: "flex",
-        gap: 6,
+        gap: 12,
       }}
     >
       {steps.map((_, index) => (

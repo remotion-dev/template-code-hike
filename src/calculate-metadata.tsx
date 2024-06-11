@@ -17,7 +17,7 @@ type Props = {
 
 export const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
   const { code } = parseRoot(Content, Schema);
-  const defaultStepDuration = 60;
+  const defaultStepDuration = 90;
 
   const twoslashPromises = code.map(async (step) => {
     const twoslashResult = await twoslash.run(step.value, step.lang, {

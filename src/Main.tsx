@@ -12,7 +12,7 @@ export const Main = (props: { steps: HighlightedCode[] }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#0D1117" }}>
       <ProgressBar steps={steps} />
-      <AbsoluteFill style={{ padding: "42px 24px" }}>
+      <AbsoluteFill style={{ padding: "84px 48px" }}>
         <Series>
           {steps.map((step, index) => (
             <Series.Sequence
