@@ -4,10 +4,9 @@ import React, { useLayoutEffect, useState } from "react";
 import {
   calculateTransitions,
   getStartingSnapshot,
-  TokenTransition,
   TokenTransitionsSnapshot,
 } from "codehike/utils/token-transitions";
-import { tweenColor, tween } from "./utils";
+import { tweenStyle } from "./utils";
 import { mark } from "./annotations/Mark";
 import { callout } from "./annotations/Callout";
 
@@ -34,23 +33,25 @@ export function CodeTransition({
       setSnapshot(getStartingSnapshot(ref.current!));
       return;
     }
+
     const transitions = calculateTransitions(ref.current!, snapshot);
+
     transitions.forEach(({ element, keyframes, options }) => {
-      tweenStyle(
+      tweenStyle({
         element,
         keyframes,
         frame,
-        durationInFrames * options.delay,
-        durationInFrames * options.duration
-      );
+        frameDelay: durationInFrames * options.delay,
+        frameDuration: durationInFrames * options.duration,
+      });
     });
     continueRender(handle);
-  });
+  }, [durationInFrames, frame, handle, snapshot]);
 
   return (
     <Pre
       ref={ref}
-      code={!snapshot ? prevCode : newCode}
+      code={snapshot ? newCode : prevCode}
       handlers={[inlineBlockTokens, mark, callout]}
       style={{
         position: "relative",
@@ -68,29 +69,3 @@ const inlineBlockTokens: AnnotationHandler = {
     <InnerToken merge={props} style={{ display: "inline-block" }} />
   ),
 };
-
-function tweenStyle(
-  element: HTMLElement,
-  keyframes: TokenTransition["keyframes"],
-  frame: number,
-  frameDelay: number,
-  frameDuration: number
-) {
-  const { translateX, translateY, color, opacity } = keyframes;
-  if (opacity) {
-    element.style.opacity = tween(
-      frame,
-      frameDelay,
-      frameDuration,
-      opacity
-    ).toString();
-  }
-  if (color) {
-    element.style.color = tweenColor(frame, frameDelay, frameDuration, color);
-  }
-  if (translateX || translateY) {
-    const x = tween(frame, frameDelay, frameDuration, translateX!);
-    const y = tween(frame, frameDelay, frameDuration, translateY!);
-    element.style.translate = `${x}px ${y}px`;
-  }
-}

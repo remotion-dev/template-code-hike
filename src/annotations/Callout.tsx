@@ -1,7 +1,6 @@
 import { InlineAnnotation, AnnotationHandler } from "codehike/code";
-import React from "react";
-import { tween } from "../utils";
 import { useCurrentFrame } from "remotion";
+import { tween } from "../utils";
 
 export const callout: AnnotationHandler = {
   name: "callout",

@@ -4,6 +4,7 @@
   "description": "My Remotion video",
   "repository": {},
   "license": "UNLICENSED",
+  "type": "module",
   "dependencies": {
     "@remotion/cli": "4.0.172",
     "@remotion/google-fonts": "4.0.172",
