@@ -12,7 +12,7 @@ import {
   getStartingSnapshot,
   TokenTransitionsSnapshot,
 } from "codehike/utils/token-transitions";
-import { tweenStyle } from "./utils";
+import { applyStyle } from "./utils";
 import { mark } from "./annotations/Mark";
 import { callout } from "./annotations/Callout";
 
@@ -72,7 +72,7 @@ export function CodeTransition({
         durationRestThreshold: 0.01,
       });
 
-      tweenStyle({
+      applyStyle({
         element,
         keyframes,
         progress,

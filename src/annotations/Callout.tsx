@@ -1,6 +1,5 @@
 import { InlineAnnotation, AnnotationHandler } from "codehike/code";
-import { useCurrentFrame, useVideoConfig } from "remotion";
-import { tween } from "../utils";
+import { interpolate, useCurrentFrame } from "remotion";
 
 export const callout: AnnotationHandler = {
   name: "callout",
@@ -17,13 +16,9 @@ export const callout: AnnotationHandler = {
   AnnotatedLine: ({ InnerLine, annotation, indentation, ...props }) => {
     const { column } = annotation.data;
     const frame = useCurrentFrame();
-    const { fps } = useVideoConfig();
-    const opacity = tween({
-      frame,
-      delayInFrames: 25,
-      durationInFrames: 20,
-      range: [0, 1],
-      fps,
+    const opacity = interpolate(frame, [25, 35], [0, 1], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
     });
     return (
       <>

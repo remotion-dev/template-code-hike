@@ -1,5 +1,4 @@
-import { useCurrentFrame } from "remotion";
-import { tweenColor } from "../utils";
+import { interpolateColors, useCurrentFrame } from "remotion";
 import { AnnotationHandler } from "codehike/code";
 
 export const mark: AnnotationHandler = {
@@ -8,12 +7,11 @@ export const mark: AnnotationHandler = {
     const [color = "blue", delay = 20, duration = 10] =
       annotation.query.split(" ");
     const frame = useCurrentFrame();
-    const backgroundColor = tweenColor({
+    const backgroundColor = interpolateColors(
       frame,
-      delay: Number(delay),
-      duration: Number(duration),
-      range: ["rgba(0, 0, 0, 0)", color],
-    });
+      [Number(delay), Number(delay) + Number(duration)],
+      ["rgba(0, 0, 0, 0)", color]
+    );
 
     return (
       <div
