@@ -16,30 +16,45 @@ export function tweenStyle({
 }) {
   const { translateX, translateY, color, opacity } = keyframes;
   if (opacity) {
-    element.style.opacity = tween(
+    element.style.opacity = tween({
       frame,
-      frameDelay,
-      frameDuration,
-      opacity
-    ).toString();
+      delayInFrames: frameDelay,
+      durationInFrames: frameDuration,
+      range: opacity,
+    }).toString();
   }
   if (color) {
     element.style.color = tweenColor(frame, frameDelay, frameDuration, color);
   }
   if (translateX || translateY) {
-    const x = tween(frame, frameDelay, frameDuration, translateX!);
-    const y = tween(frame, frameDelay, frameDuration, translateY!);
+    const x = tween({
+      frame,
+      delayInFrames: frameDelay,
+      durationInFrames: frameDuration,
+      range: translateX!,
+    });
+    const y = tween({
+      frame,
+      delayInFrames: frameDelay,
+      durationInFrames: frameDuration,
+      range: translateY!,
+    });
     element.style.translate = `${x}px ${y}px`;
   }
 }
 
-export function tween(
-  frame: number,
-  delayInFrames: number,
-  durationInFrames: number,
-  [from, to]: [number, number]
-) {
-  return interpolate(frame - delayInFrames, [0, durationInFrames], [from, to], {
+export function tween({
+  frame,
+  delayInFrames,
+  durationInFrames,
+  range,
+}: {
+  frame: number;
+  delayInFrames: number;
+  durationInFrames: number;
+  range: [number, number];
+}) {
+  return interpolate(frame - delayInFrames, [0, durationInFrames], range, {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

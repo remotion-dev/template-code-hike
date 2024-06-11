@@ -17,7 +17,12 @@ export const callout: AnnotationHandler = {
   AnnotatedLine: ({ InnerLine, annotation, indentation, ...props }) => {
     const { column } = annotation.data;
     const frame = useCurrentFrame();
-    const opacity = tween(frame, 25, 20, [0, 1]);
+    const opacity = tween({
+      frame,
+      delayInFrames: 25,
+      durationInFrames: 20,
+      range: [0, 1],
+    });
     return (
       <>
         <InnerLine {...props} />
