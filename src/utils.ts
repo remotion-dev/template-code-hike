@@ -1,6 +1,5 @@
 import { TokenTransition } from "codehike/utils/token-transitions";
 import { interpolate, interpolateColors, spring } from "remotion";
-import { translate } from "@remotion/animation-utils";
 
 export function tweenStyle({
   element,
@@ -19,10 +18,9 @@ export function tweenStyle({
   if (color) {
     element.style.color = interpolateColors(progress, [0, 1], color);
   }
-  element.style.transform = translate(
-    `${translateX ? interpolate(progress, [0, 1], translateX) : 0}px`,
-    `${translateY ? interpolate(progress, [0, 1], translateY) : 0}px`
-  );
+  const x = translateX ? interpolate(progress, [0, 1], translateX) : 0;
+  const y = translateY ? interpolate(progress, [0, 1], translateY) : 0;
+  element.style.translate = `${x}px ${y}px`;
 }
 
 export function tween({

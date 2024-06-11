@@ -5,7 +5,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { Pre, HighlightedCode } from "codehike/code";
+import { Pre, HighlightedCode, AnnotationHandler } from "codehike/code";
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import {
   calculateTransitions,
@@ -36,7 +36,7 @@ export function CodeTransition({
   const [snapshot, setSnapshot] = useState<TokenTransitionsSnapshot>();
   const [handle] = React.useState(() => delayRender());
 
-  const prevCode = useMemo(() => {
+  const prevCode: HighlightedCode = useMemo(() => {
     return oldCode || { ...newCode, tokens: [], annotations: [] };
   }, [newCode, oldCode]);
 
@@ -80,17 +80,25 @@ export function CodeTransition({
     }
   }, [durationInFrames, fps, frame, snapshot]);
 
+  const handlers: AnnotationHandler[] = useMemo(() => {
+    return [inlineBlockTokens, mark, callout];
+  }, []);
+
+  const style: React.CSSProperties = useMemo(() => {
+    return {
+      position: "relative",
+      fontSize: 20,
+      lineHeight: 1.5,
+      fontFamily,
+    };
+  }, []);
+
   return (
     <Pre
       ref={ref}
       code={snapshot ? newCode : prevCode}
-      handlers={[inlineBlockTokens, mark, callout]}
-      style={{
-        position: "relative",
-        fontSize: 20,
-        lineHeight: 1.5,
-        fontFamily,
-      }}
+      handlers={handlers}
+      style={style}
     />
   );
 }
