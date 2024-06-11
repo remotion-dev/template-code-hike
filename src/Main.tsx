@@ -1,4 +1,4 @@
-import { AbsoluteFill, Sequence, useVideoConfig } from "remotion";
+import { AbsoluteFill, Series, useVideoConfig } from "remotion";
 import { ProgressBar } from "./ProgressBar";
 import { CodeTransition } from "./CodeTransition";
 import { HighlightedCode } from "codehike/code";
@@ -12,21 +12,23 @@ export const Main = (props: { steps: HighlightedCode[] }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#0D1117" }}>
       <ProgressBar steps={steps} />
-      {steps.map((step, index) => (
-        <Sequence
-          from={stepDuration * index}
-          durationInFrames={stepDuration}
-          name={step.meta}
-        >
-          <div style={{ padding: "42px 24px" }}>
-            <CodeTransition
-              oldCode={steps[index - 1]}
-              newCode={step}
-              durationInFrames={transitionDuration}
-            />
-          </div>
-        </Sequence>
-      ))}
+      <AbsoluteFill style={{ padding: "42px 24px" }}>
+        <Series>
+          {steps.map((step, index) => (
+            <Series.Sequence
+              layout="none"
+              durationInFrames={stepDuration}
+              name={step.meta}
+            >
+              <CodeTransition
+                oldCode={steps[index - 1]}
+                newCode={step}
+                durationInFrames={transitionDuration}
+              />
+            </Series.Sequence>
+          ))}
+        </Series>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
