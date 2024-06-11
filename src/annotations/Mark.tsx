@@ -8,10 +8,12 @@ export const mark: AnnotationHandler = {
     const [color = "blue", delay = 20, duration = 10] =
       annotation.query.split(" ");
     const frame = useCurrentFrame();
-    const backgroundColor = tweenColor(frame, Number(delay), Number(duration), [
-      "rgba(0, 0, 0, 0)",
-      color,
-    ]);
+    const backgroundColor = tweenColor({
+      frame,
+      delay: Number(delay),
+      duration: Number(duration),
+      range: ["rgba(0, 0, 0, 0)", color],
+    });
 
     return (
       <div

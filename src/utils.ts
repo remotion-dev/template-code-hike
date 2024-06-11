@@ -24,7 +24,12 @@ export function tweenStyle({
     }).toString();
   }
   if (color) {
-    element.style.color = tweenColor(frame, frameDelay, frameDuration, color);
+    element.style.color = tweenColor({
+      frame,
+      delay: frameDelay,
+      duration: frameDuration,
+      range: color,
+    });
   }
   if (translateX || translateY) {
     const x = tween({
@@ -60,17 +65,16 @@ export function tween({
   });
 }
 
-export function tweenColor(
-  frame: number,
-  delay: number,
-  duration: number,
-  [from, to]: [string, string]
-) {
-  if (frame < delay) {
-    return from;
-  }
-  if (frame > delay + duration) {
-    return to;
-  }
-  return interpolateColors(frame - delay, [0, duration], [from, to]);
+export function tweenColor({
+  frame,
+  delay,
+  duration,
+  range,
+}: {
+  frame: number;
+  delay: number;
+  duration: number;
+  range: [string, string];
+}) {
+  return interpolateColors(frame - delay, [0, duration], range);
 }
