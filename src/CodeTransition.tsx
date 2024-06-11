@@ -1,10 +1,5 @@
-import { spring } from "remotion";
-import {
-  continueRender,
-  delayRender,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
+import { Easing, interpolate } from "remotion";
+import { continueRender, delayRender, useCurrentFrame } from "remotion";
 import { Pre, HighlightedCode, AnnotationHandler } from "codehike/code";
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 
@@ -30,10 +25,10 @@ export function CodeTransition({
   durationInFrames?: number;
 }) {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
   const ref = React.useRef<HTMLPreElement>(null);
-  const [snapshot, setSnapshot] = useState<TokenTransitionsSnapshot>();
+  const [oldSnapshot, setOldSnapshot] =
+    useState<TokenTransitionsSnapshot | null>(null);
   const [handle] = React.useState(() => delayRender());
 
   const prevCode: HighlightedCode = useMemo(() => {
@@ -41,39 +36,28 @@ export function CodeTransition({
   }, [newCode, oldCode]);
 
   const code = useMemo(() => {
-    return snapshot ? newCode : prevCode;
-  }, [newCode, prevCode, snapshot]);
-
-  useLayoutEffect(() => {
-    if (!snapshot) {
-      setSnapshot(getStartingSnapshot(ref.current!));
-      return;
-    }
-
-    continueRender(handle);
-  }, [handle, snapshot]);
+    return oldSnapshot ? newCode : prevCode;
+  }, [newCode, prevCode, oldSnapshot]);
 
   useEffect(() => {
-    if (!snapshot) {
+    if (!oldSnapshot) {
+      setOldSnapshot(getStartingSnapshot(ref.current!));
+    }
+  }, [oldSnapshot]);
+
+  useLayoutEffect(() => {
+    if (!oldSnapshot) {
+      setOldSnapshot(getStartingSnapshot(ref.current!));
       return;
     }
-    if (!ref.current) {
-      return;
-    }
-
-    const transitions = calculateTransitions(ref.current, snapshot);
-
-    for (const transition of transitions) {
-      const { element, keyframes, options } = transition;
-      const progress = spring({
-        frame,
-        fps,
-        config: {
-          damping: 200,
-        },
-        delay: durationInFrames * options.delay,
-        durationInFrames: durationInFrames * options.duration,
-        durationRestThreshold: 0.01,
+    const transitions = calculateTransitions(ref.current!, oldSnapshot);
+    transitions.forEach(({ element, keyframes, options }) => {
+      const delay = durationInFrames * options.delay;
+      const duration = durationInFrames * options.duration;
+      const progress = interpolate(frame, [delay, delay + duration], [0, 1], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+        easing: Easing.inOut(Easing.ease),
       });
 
       applyStyle({
@@ -81,8 +65,9 @@ export function CodeTransition({
         keyframes,
         progress,
       });
-    }
-  }, [durationInFrames, fps, frame, snapshot]);
+    });
+    continueRender(handle);
+  });
 
   const handlers: AnnotationHandler[] = useMemo(() => {
     return [inlineBlockTokens, callout];

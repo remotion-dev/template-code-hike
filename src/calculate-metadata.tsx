@@ -46,8 +46,6 @@ export const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
 
   const twoSlashedCode = await Promise.all(twoslashPromises);
 
-  console.log(twoSlashedCode);
-
   return {
     durationInFrames: code.length * defaultStepDuration,
     props: {

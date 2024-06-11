@@ -44,12 +44,12 @@ export const callout: AnnotationHandler = {
             style={{
               left: `${column - indentation - 0.5}ch`,
               position: "absolute",
-              borderLeft: "1px solid #888",
-              borderTop: "1px solid #888",
+              borderLeft: "2px solid #888",
+              borderTop: "2px solid #888",
               width: "1rem",
               height: "1rem",
               transform: "rotate(45deg) translateY(-50%)",
-              top: "-2px",
+              top: "-3px",
               backgroundColor: "#171717",
             }}
           />
