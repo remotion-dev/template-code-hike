@@ -6,9 +6,14 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@remotion/cli": "4.0.172",
+    "@remotion/google-fonts": "4.0.172",
+    "@mdx-js/loader": "3.0.1",
+    "@mdx-js/react": "3.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "remotion": "4.0.172"
+    "remotion": "4.0.172",
+    "codehike": "^1.0.0-alpha.19",
+    "zod": "3.21.4"
   },
   "devDependencies": {
     "@remotion/eslint-config": "4.0.172",

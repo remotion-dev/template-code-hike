@@ -1,17 +1,26 @@
 import { Composition } from "remotion";
-import { MyComposition } from "./Composition";
+import { Main } from "./Main";
+import { Block, HighlightedCodeBlock, parseRoot } from "codehike/blocks";
+import { z } from "zod";
 
-export const RemotionRoot: React.FC = () => {
+const Schema = Block.extend({
+  code: z.array(HighlightedCodeBlock),
+});
+
+import Content from "./content.md";
+const { code } = parseRoot(Content, Schema);
+const defaultStepDuration = 90;
+
+export const RemotionRoot = () => {
   return (
-    <>
-      <Composition
-        id="MyComp"
-        component={MyComposition}
-        durationInFrames={60}
-        fps={30}
-        width={1280}
-        height={720}
-      />
-    </>
+    <Composition
+      id="CodeHikeExample"
+      component={Main}
+      defaultProps={{ steps: code }}
+      fps={30}
+      durationInFrames={defaultStepDuration * code.length}
+      width={580}
+      height={530}
+    />
   );
 };
