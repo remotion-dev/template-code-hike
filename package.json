@@ -1,0 +1,28 @@
+{
+  "name": "code-animation",
+  "version": "1.0.0",
+  "description": "My Remotion video",
+  "repository": {},
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@remotion/cli": "4.0.172",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "remotion": "4.0.172"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config": "4.0.172",
+    "@types/react": "^18.0.26",
+    "@types/web": "^0.0.143",
+    "eslint": "^8.43.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "start": "remotionb studio",
+    "build": "remotionb render MyComp out/video.mp4",
+    "upgrade": "remotionb upgrade",
+    "test": "eslint src --ext ts,tsx,js,jsx && tsc"
+  },
+  "packageManager": "bun@1.1.12"
+}
