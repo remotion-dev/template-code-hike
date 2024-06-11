@@ -4,29 +4,12 @@ import { interpolate, interpolateColors, spring } from "remotion";
 export function tweenStyle({
   element,
   keyframes,
-  frame,
-  frameDelay,
-  frameDuration,
-  fps,
+  progress,
 }: {
   element: HTMLElement;
   keyframes: TokenTransition["keyframes"];
-  frame: number;
-  frameDelay: number;
-  frameDuration: number;
-  fps: number;
+  progress: number;
 }) {
-  const progress = spring({
-    frame,
-    fps,
-    config: {
-      damping: 200,
-    },
-    delay: frameDelay,
-    durationInFrames: frameDuration,
-    durationRestThreshold: 0.01,
-  });
-
   const { translateX, translateY, color, opacity } = keyframes;
   if (opacity) {
     element.style.opacity = interpolate(progress, [0, 1], opacity).toString();

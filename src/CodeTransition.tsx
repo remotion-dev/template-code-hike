@@ -1,11 +1,12 @@
+import { spring } from "remotion";
 import {
   continueRender,
   delayRender,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { Pre, AnnotationHandler, HighlightedCode } from "codehike/code";
-import React, { useLayoutEffect, useState } from "react";
+import { Pre, HighlightedCode } from "codehike/code";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import {
   calculateTransitions,
   getStartingSnapshot,
@@ -16,6 +17,7 @@ import { mark } from "./annotations/Mark";
 import { callout } from "./annotations/Callout";
 
 import { loadFont } from "@remotion/google-fonts/RobotoMono";
+import { inlineBlockTokens } from "./annotations/InlineToken";
 const { fontFamily } = loadFont();
 
 export function CodeTransition({
@@ -23,16 +25,20 @@ export function CodeTransition({
   newCode,
   durationInFrames = 30,
 }: {
-  oldCode?: HighlightedCode;
+  oldCode: HighlightedCode | null;
   newCode: HighlightedCode;
   durationInFrames?: number;
 }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+
   const ref = React.useRef<HTMLPreElement>(null);
   const [snapshot, setSnapshot] = useState<TokenTransitionsSnapshot>();
   const [handle] = React.useState(() => delayRender());
-  const prevCode = oldCode || { ...newCode, tokens: [], annotations: [] };
+
+  const prevCode = useMemo(() => {
+    return oldCode || { ...newCode, tokens: [], annotations: [] };
+  }, [newCode, oldCode]);
 
   useLayoutEffect(() => {
     if (!snapshot) {
@@ -42,16 +48,26 @@ export function CodeTransition({
 
     const transitions = calculateTransitions(ref.current!, snapshot);
 
-    transitions.forEach(({ element, keyframes, options }) => {
+    for (const transition of transitions) {
+      const { element, keyframes, options } = transition;
+      const progress = spring({
+        frame,
+        fps,
+        config: {
+          damping: 200,
+        },
+        delay: durationInFrames * options.delay,
+        durationInFrames: durationInFrames * options.duration,
+        durationRestThreshold: 0.01,
+      });
+
       tweenStyle({
         element,
         keyframes,
-        frame,
-        frameDelay: durationInFrames * options.delay,
-        frameDuration: durationInFrames * options.duration,
-        fps,
+        progress,
       });
-    });
+    }
+
     continueRender(handle);
   }, [durationInFrames, fps, frame, handle, snapshot]);
 
@@ -69,10 +85,3 @@ export function CodeTransition({
     />
   );
 }
-
-const inlineBlockTokens: AnnotationHandler = {
-  name: "inline-block",
-  Token: ({ InnerToken, ...props }) => (
-    <InnerToken merge={props} style={{ display: "inline-block" }} />
-  ),
-};
