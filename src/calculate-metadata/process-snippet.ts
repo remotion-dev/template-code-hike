@@ -49,7 +49,7 @@ export const processSnippet = async (step: PublicFolderFile, theme: Theme) => {
 		});
 	}
 
-	twoslashResult.errors.forEach(({text, line, character, length}) => {
+	for (const {text, line, character, length} of twoslashResult.errors) {
 		highlighted.annotations.push({
 			name: 'error',
 			query: text,
@@ -58,7 +58,7 @@ export const processSnippet = async (step: PublicFolderFile, theme: Theme) => {
 			fromColumn: character,
 			toColumn: character + length,
 		});
-	});
+	}
 
 	return highlighted;
 };
