@@ -4,6 +4,7 @@ import {CodeTransition} from './CodeTransition';
 import {HighlightedCode} from 'codehike/code';
 import {ThemeColors, ThemeProvider} from './calculate-metadata/theme';
 import {useMemo} from 'react';
+import {RefreshOnCodeChange} from './ReloadOnCodeChange';
 
 export type Props = {
 	steps: HighlightedCode[] | null;
@@ -58,6 +59,7 @@ export const Main = ({steps, themeColors}: Props) => {
 					</Series>
 				</AbsoluteFill>
 			</AbsoluteFill>
+			<RefreshOnCodeChange />
 		</ThemeProvider>
 	);
 };
