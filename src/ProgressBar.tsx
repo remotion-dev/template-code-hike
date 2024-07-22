@@ -1,5 +1,5 @@
 import {useCurrentFrame, useVideoConfig} from 'remotion';
-import {useThemeColors} from './theme';
+import {useThemeColors} from './calculate-metadata/theme';
 
 export function ProgressBar({steps}: {steps: unknown[]}) {
 	const frame = useCurrentFrame();

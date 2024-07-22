@@ -1,6 +1,4 @@
-import { Config } from "@remotion/cli/config";
-import { enableMdx } from "./src/webpack-override";
+import {Config} from '@remotion/cli/config';
 
-Config.overrideWebpackConfig(enableMdx);
-Config.setVideoImageFormat("jpeg");
+Config.setVideoImageFormat('jpeg');
 Config.setOverwriteOutput(true);

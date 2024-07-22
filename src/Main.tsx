@@ -2,7 +2,7 @@ import {AbsoluteFill, Series, useVideoConfig} from 'remotion';
 import {ProgressBar} from './ProgressBar';
 import {CodeTransition} from './CodeTransition';
 import {HighlightedCode} from 'codehike/code';
-import {ThemeColors, ThemeProvider} from './theme';
+import {ThemeColors, ThemeProvider} from './calculate-metadata/theme';
 
 export type Props = {
 	steps: HighlightedCode[] | null;

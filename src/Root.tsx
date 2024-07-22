@@ -1,13 +1,13 @@
 import {Composition} from 'remotion';
 import {Main} from './Main';
 
-import {calculateMetadata} from './calculate-metadata';
-import {schema} from './schema';
+import {calculateMetadata} from './calculate-metadata/calculate-metadata';
+import {schema} from './calculate-metadata/schema';
 
 export const RemotionRoot = () => {
 	return (
 		<Composition
-			id="CodeHikeExample"
+			id="Main"
 			component={Main}
 			defaultProps={{
 				steps: null,

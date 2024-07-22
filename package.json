@@ -6,17 +6,16 @@
 	"license": "UNLICENSED",
 	"type": "module",
 	"dependencies": {
-		"@mdx-js/loader": "3.0.1",
-		"@mdx-js/react": "3.0.1",
+		"@code-hike/lighter": "0.9.4",
 		"@remotion/cli": "^4.0.172",
 		"@remotion/google-fonts": "^4.0.172",
+		"@remotion/studio": "^4.0.172",
 		"codehike": "1.0.0-beta.2",
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0",
 		"remotion": "^4.0.172",
 		"twoslash-cdn": "^0.2.9",
-		"zod": "3.21.4",
-		"@code-hike/lighter": "0.9.4"
+		"zod": "3.21.4"
 	},
 	"devDependencies": {
 		"@remotion/eslint-config": "^4.0.172",
@@ -27,10 +26,9 @@
 		"typescript": "^5.4.5"
 	},
 	"scripts": {
-		"start": "remotionb studio",
-		"build": "remotionb render MyComp out/video.mp4",
-		"upgrade": "remotionb upgrade",
+		"start": "remotion studio",
+		"build": "remotion render MyComp out/video.mp4",
+		"upgrade": "remotion upgrade",
 		"test": "eslint src --ext ts,tsx,js,jsx && tsc"
-	},
-	"packageManager": "bun@1.1.12"
+	}
 }
