@@ -16,19 +16,19 @@ Welcome to your Remotion project!
 **Install Dependencies**
 
 ```console
-bun install
+npm i
 ```
 
 **Start Preview**
 
 ```console
-bun start
+npm start
 ```
 
 **Render video**
 
 ```console
-bun run build
+npm run build
 ```
 
 **Upgrade Remotion**

@@ -1,51 +1,74 @@
+import {useMemo} from 'react';
 import {useCurrentFrame, useVideoConfig} from 'remotion';
 import {useThemeColors} from './calculate-metadata/theme';
+import React from 'react';
+
+const Step: React.FC<{
+	index: number;
+	currentStep: number;
+	currentStepProgress: number;
+}> = ({index, currentStep, currentStepProgress}) => {
+	const themeColors = useThemeColors();
+
+	const outer: React.CSSProperties = useMemo(() => {
+		return {
+			backgroundColor: themeColors.editor.lineHighlightBackground,
+			borderRadius: 6,
+			overflow: 'hidden',
+			height: '100%',
+			flex: 1,
+		};
+	}, [themeColors]);
+
+	const inner: React.CSSProperties = useMemo(() => {
+		return {
+			height: '100%',
+			backgroundColor: themeColors.editor.foreground,
+			width:
+				index > currentStep
+					? 0
+					: index === currentStep
+						? currentStepProgress * 100 + '%'
+						: '100%',
+		};
+	}, [themeColors.editor.foreground, index, currentStep, currentStepProgress]);
+
+	return (
+		<div style={outer}>
+			<div style={inner} />
+		</div>
+	);
+};
 
 export function ProgressBar({steps}: {steps: unknown[]}) {
 	const frame = useCurrentFrame();
 	const {durationInFrames} = useVideoConfig();
-	const themeColors = useThemeColors();
 
 	const stepDuration = durationInFrames / steps.length;
 	const currentStep = Math.floor(frame / stepDuration);
 	const currentStepProgress = (frame % stepDuration) / stepDuration;
 
+	const container: React.CSSProperties = useMemo(() => {
+		return {
+			position: 'absolute',
+			top: 48,
+			left: 48,
+			right: 48,
+			height: 6,
+			display: 'flex',
+			gap: 12,
+		};
+	}, []);
+
 	return (
-		<div
-			style={{
-				position: 'absolute',
-				top: 48,
-				left: 48,
-				right: 48,
-				height: 6,
-				display: 'flex',
-				gap: 12,
-			}}
-		>
+		<div style={container}>
 			{steps.map((_, index) => (
-				<div
+				<Step
 					key={index}
-					style={{
-						backgroundColor: themeColors.editor.lineHighlightBackground,
-						borderRadius: 6,
-						overflow: 'hidden',
-						height: '100%',
-						flex: 1,
-					}}
-				>
-					<div
-						style={{
-							height: '100%',
-							backgroundColor: themeColors.editor.foreground,
-							width:
-								index > currentStep
-									? 0
-									: index === currentStep
-										? currentStepProgress * 100 + '%'
-										: '100%',
-						}}
-					/>
-				</div>
+					currentStep={currentStep}
+					currentStepProgress={currentStepProgress}
+					index={index}
+				/>
 			))}
 		</div>
 	);

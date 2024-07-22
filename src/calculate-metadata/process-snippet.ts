@@ -1,8 +1,8 @@
 import {highlight} from 'codehike/code';
-import {PublicFolderFile} from './get-files';
-
 import {createTwoslashFromCDN} from 'twoslash-cdn';
+import {PublicFolderFile} from './get-files';
 import {Theme} from './theme';
+
 const twoslash = createTwoslashFromCDN();
 
 export const processSnippet = async (step: PublicFolderFile, theme: Theme) => {

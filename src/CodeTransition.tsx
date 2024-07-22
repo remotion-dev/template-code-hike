@@ -14,6 +14,7 @@ import {callout} from './annotations/Callout';
 import {loadFont} from '@remotion/google-fonts/RobotoMono';
 import {tokenTransitions} from './annotations/InlineToken';
 import {errorInline, errorMessage} from './annotations/Error';
+
 const {fontFamily} = loadFont();
 
 export function CodeTransition({
