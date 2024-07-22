@@ -1,16 +1,29 @@
-```ts !! dolor
-let msg = `Hello, world`;
+```ts !! a
+const user = {
+  name: "Lorem",
+  age: 26,
+};
 
-msg = "Hi there";
-
-console.log(msg);
+console.log(user);
+//           ^?
 ```
 
-```ts !! dolor
-const msg = `Hello, world`;
+```ts !! b
+const user = {
+  name: "Lorem",
+  age: 26,
+};
+// @errors: 2339
+console.log(user.location);
+```
 
-// @errors: 2588
-msg = "Hi there";
+```ts !! c
+const user = {
+  name: "Lorem",
+  age: 26,
+  location: "Ipsum",
+};
 
-console.log(msg);
+console.log(user.location);
+//           ^?
 ```

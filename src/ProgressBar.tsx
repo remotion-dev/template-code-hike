@@ -1,6 +1,14 @@
 import { useCurrentFrame, useVideoConfig } from "remotion";
 
-export function ProgressBar({ steps }: { steps: unknown[] }) {
+export function ProgressBar({
+  steps,
+  backgroundColor,
+  color,
+}: {
+  steps: unknown[];
+  backgroundColor: string;
+  color: string;
+}) {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const stepDuration = durationInFrames / steps.length;
@@ -23,7 +31,7 @@ export function ProgressBar({ steps }: { steps: unknown[] }) {
         <div
           key={index}
           style={{
-            backgroundColor: "#333",
+            backgroundColor,
             borderRadius: 6,
             overflow: "hidden",
             height: "100%",
@@ -33,7 +41,7 @@ export function ProgressBar({ steps }: { steps: unknown[] }) {
           <div
             style={{
               height: "100%",
-              backgroundColor: "white",
+              backgroundColor: color,
               width:
                 index > currentStep
                   ? 0

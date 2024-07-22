@@ -2,16 +2,33 @@ import { AbsoluteFill, Series, useVideoConfig } from "remotion";
 import { ProgressBar } from "./ProgressBar";
 import { CodeTransition } from "./CodeTransition";
 import { HighlightedCode } from "codehike/code";
+import { ThemeColors } from "./config";
 
-export const Main = (props: { steps: HighlightedCode[] }) => {
+export type Props = {
+  steps: HighlightedCode[] | null;
+  themeColors: ThemeColors | null;
+};
+
+export const Main = (props: Props) => {
+  if (!props.themeColors) {
+    throw new Error("Theme colors are not defined");
+  }
+  if (!props.steps) {
+    throw new Error("Steps are not defined");
+  }
+
   const { steps } = props;
   const { durationInFrames } = useVideoConfig();
   const stepDuration = durationInFrames / steps.length;
   const transitionDuration = 30;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#0D1117" }}>
-      <ProgressBar steps={steps} />
+    <AbsoluteFill style={{ backgroundColor: props.themeColors.background }}>
+      <ProgressBar
+        steps={steps}
+        backgroundColor={props.themeColors.editor.lineHighlightBackground}
+        color={props.themeColors.editor.foreground}
+      />
       <AbsoluteFill style={{ padding: "84px 48px" }}>
         <Series>
           {steps.map((step, index) => (

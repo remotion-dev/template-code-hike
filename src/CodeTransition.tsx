@@ -12,7 +12,8 @@ import { applyStyle } from "./utils";
 import { callout } from "./annotations/Callout";
 
 import { loadFont } from "@remotion/google-fonts/RobotoMono";
-import { inlineBlockTokens } from "./annotations/InlineToken";
+import { tokenTransitions } from "./annotations/InlineToken";
+import { errorInline, errorMessage } from "./annotations/Error";
 const { fontFamily } = loadFont();
 
 export function CodeTransition({
@@ -70,7 +71,7 @@ export function CodeTransition({
   });
 
   const handlers: AnnotationHandler[] = useMemo(() => {
-    return [inlineBlockTokens, callout];
+    return [tokenTransitions, callout, errorInline, errorMessage];
   }, []);
 
   const style: React.CSSProperties = useMemo(() => {

@@ -1,8 +1,8 @@
-import { AnnotationHandler } from "codehike/code";
+import { AnnotationHandler, InnerToken } from "codehike/code";
 
-export const inlineBlockTokens: AnnotationHandler = {
-  name: "inline-block",
-  Token: ({ InnerToken, ...props }) => (
+export const tokenTransitions: AnnotationHandler = {
+  name: "token-transitions",
+  Token: ({ ...props }) => (
     <InnerToken merge={props} style={{ display: "inline-block" }} />
   ),
 };

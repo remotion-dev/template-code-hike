@@ -1,4 +1,9 @@
-import { InlineAnnotation, AnnotationHandler } from "codehike/code";
+import {
+  InlineAnnotation,
+  AnnotationHandler,
+  InnerLine,
+  Pre,
+} from "codehike/code";
 import { interpolate, useCurrentFrame } from "remotion";
 
 export const callout: AnnotationHandler = {
@@ -13,47 +18,49 @@ export const callout: AnnotationHandler = {
       data: { ...data, column: (fromColumn + toColumn) / 2 },
     };
   },
-  AnnotatedLine: ({ InnerLine, annotation, indentation, ...props }) => {
-    const { column } = annotation.data;
+  AnnotatedLine: ({ annotation, ...props }) => {
+    const { column, codeblock } = annotation.data;
+    const { indentation } = props;
     const frame = useCurrentFrame();
+
     const opacity = interpolate(frame, [25, 35], [0, 1], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
     });
+
     return (
       <>
-        <InnerLine {...props} />
+        <InnerLine merge={props} />
         <div
           style={{
             opacity,
             minWidth: `${column + 4}ch`,
             marginLeft: `${indentation}ch`,
             width: "fit-content",
-            border: "1px solid #aaa",
-            backgroundColor: "#171717",
-            borderRadius: "0.25rem",
-            padding: "1rem",
+            backgroundColor: "rgb(32 42 57)",
+            padding: "0.5rem",
             position: "relative",
             marginTop: "0.25rem",
             whiteSpace: "pre-wrap",
-            color: "#FB7C71",
-            fontFamily: "sans-serif",
+            color: "#c9d1d9",
           }}
         >
           <div
             style={{
               left: `${column - indentation - 0.5}ch`,
               position: "absolute",
-              borderLeft: "2px solid #888",
-              borderTop: "2px solid #888",
-              width: "1rem",
-              height: "1rem",
+              width: "0.5rem",
+              height: "0.5rem",
               transform: "rotate(45deg) translateY(-50%)",
-              top: "-3px",
-              backgroundColor: "#171717",
+              top: "-2px",
+              backgroundColor: "rgb(32 42 57)",
             }}
           />
-          {annotation.data.children || annotation.query}
+          {codeblock ? (
+            <Pre code={codeblock} style={{ margin: 0 }} />
+          ) : (
+            annotation.data.children || annotation.query
+          )}
         </div>
       </>
     );

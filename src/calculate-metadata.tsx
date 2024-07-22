@@ -3,7 +3,10 @@ import { CalculateMetadataFunction } from "remotion";
 import Content from "./content.md";
 import { Block, HighlightedCodeBlock, parseRoot } from "codehike/blocks";
 import { createTwoslashFromCDN } from "twoslash-cdn";
-import { HighlightedCode, highlight } from "codehike/code";
+import { highlight } from "codehike/code";
+import { THEME } from "./config";
+import { getThemeColors } from "@code-hike/lighter";
+import { Props } from "./Main";
 
 const Schema = Block.extend({
   code: z.array(HighlightedCodeBlock),
@@ -11,13 +14,12 @@ const Schema = Block.extend({
 
 const twoslash = createTwoslashFromCDN();
 
-type Props = {
-  steps: HighlightedCode[];
-};
-
 export const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
   const { code } = parseRoot(Content, Schema);
+
   const defaultStepDuration = 90;
+
+  const themeColors = await getThemeColors(THEME);
 
   const twoslashPromises = code.map(async (step) => {
     const twoslashResult = await twoslash.run(step.value, step.lang, {
@@ -25,14 +27,35 @@ export const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
         lib: ["dom"],
       },
     });
+
     const highlighted = await highlight(
       { ...step, value: twoslashResult.code },
-      "github-dark"
+      THEME
+    );
+
+    await Promise.all(
+      twoslashResult.queries.map(async ({ text, line, character, length }) => {
+        const codeblock = await highlight(
+          { value: text, lang: "ts", meta: "callout" },
+          THEME
+        );
+        highlighted.annotations.push({
+          name: "callout",
+          query: text,
+          lineNumber: line + 1,
+          data: {
+            character,
+            codeblock,
+          },
+          fromColumn: character,
+          toColumn: character + length,
+        });
+      })
     );
 
     twoslashResult.errors.forEach(({ text, line, character, length }) => {
       highlighted.annotations.push({
-        name: "callout",
+        name: "error",
         query: text,
         lineNumber: line + 1,
         data: { character },
@@ -50,6 +73,7 @@ export const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
     durationInFrames: code.length * defaultStepDuration,
     props: {
       steps: twoSlashedCode,
+      themeColors,
     },
   };
 };
