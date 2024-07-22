@@ -61,7 +61,7 @@ export const errorMessage: AnnotationHandler = {
 						padding: '1rem 2rem',
 						marginTop: '0.5rem',
 						whiteSpace: 'pre-wrap',
-						color: '#c9d1d9',
+						color: themeColors.editor.foreground,
 					}}
 				>
 					{annotation.data.children || annotation.query}

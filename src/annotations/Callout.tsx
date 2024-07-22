@@ -56,7 +56,7 @@ export const callout: AnnotationHandler = {
 							height: '1rem',
 							transform: 'rotate(45deg) translateY(-50%)',
 							top: '-2px',
-							backgroundColor: 'rgb(32 42 57)',
+							backgroundColor: themeColors.editor.lineHighlightBackground,
 						}}
 					/>
 					{codeblock ? (
