@@ -42,6 +42,10 @@ npm run build
 bun run upgrade
 ```
 
+## More examples
+
+Visit the [Code Hike examples](https://github.com/code-hike/examples/tree/main/with-remotion) for more variants of code animations.
+
 ## Docs
 
 Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
