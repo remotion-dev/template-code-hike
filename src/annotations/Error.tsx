@@ -41,7 +41,6 @@ export const errorInline: AnnotationHandler = {
 export const errorMessage: AnnotationHandler = {
   name: "error-message",
   Block: ({ annotation, children }) => {
-    console.log("error");
     const frame = useCurrentFrame();
     const opacity = interpolate(frame, [25, 35], [0, 1], {
       extrapolateLeft: "clamp",
@@ -54,11 +53,11 @@ export const errorMessage: AnnotationHandler = {
         <div
           style={{
             opacity,
-            borderLeft: "2px solid red",
-            marginLeft: "-0.5rem",
+            borderLeft: "4px solid red",
+            marginLeft: "-1rem",
             backgroundColor: "rgb(32 42 57)",
-            padding: "0.5rem 1rem",
-            marginTop: "0.25rem",
+            padding: "1rem 2rem",
+            marginTop: "0.5rem",
             whiteSpace: "pre-wrap",
             color: "#c9d1d9",
           }}

@@ -38,7 +38,7 @@ export const callout: AnnotationHandler = {
             marginLeft: `${indentation}ch`,
             width: "fit-content",
             backgroundColor: "rgb(32 42 57)",
-            padding: "0.5rem",
+            padding: "1rem 2rem",
             position: "relative",
             marginTop: "0.25rem",
             whiteSpace: "pre-wrap",
@@ -47,10 +47,10 @@ export const callout: AnnotationHandler = {
         >
           <div
             style={{
-              left: `${column - indentation - 0.5}ch`,
+              left: `${column - indentation - 1}ch`,
               position: "absolute",
-              width: "0.5rem",
-              height: "0.5rem",
+              width: "1rem",
+              height: "1rem",
               transform: "rotate(45deg) translateY(-50%)",
               top: "-2px",
               backgroundColor: "rgb(32 42 57)",
