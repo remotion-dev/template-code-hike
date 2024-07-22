@@ -10,9 +10,13 @@ const Step: React.FC<{
 }> = ({index, currentStep, currentStepProgress}) => {
 	const themeColors = useThemeColors();
 
+	console.log(themeColors);
+
 	const outer: React.CSSProperties = useMemo(() => {
 		return {
-			backgroundColor: themeColors.editor.lineHighlightBackground,
+			backgroundColor:
+				themeColors.editor.lineHighlightBackground ??
+				themeColors.editor.rangeHighlightBackground,
 			borderRadius: 6,
 			overflow: 'hidden',
 			height: '100%',
@@ -23,7 +27,7 @@ const Step: React.FC<{
 	const inner: React.CSSProperties = useMemo(() => {
 		return {
 			height: '100%',
-			backgroundColor: themeColors.editor.foreground,
+			backgroundColor: themeColors.icon.foreground,
 			width:
 				index > currentStep
 					? 0
@@ -31,7 +35,7 @@ const Step: React.FC<{
 						? currentStepProgress * 100 + '%'
 						: '100%',
 		};
-	}, [themeColors.editor.foreground, index, currentStep, currentStepProgress]);
+	}, [themeColors.icon.foreground, index, currentStep, currentStepProgress]);
 
 	return (
 		<div style={outer}>
