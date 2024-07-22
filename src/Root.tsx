@@ -9,7 +9,11 @@ export const RemotionRoot = () => {
 		<Composition
 			id="CodeHikeExample"
 			component={Main}
-			defaultProps={{steps: null, themeColors: null, theme: 'github-dark'}}
+			defaultProps={{
+				steps: null,
+				themeColors: null,
+				theme: 'github-dark' as const,
+			}}
 			fps={30}
 			width={1080}
 			height={1080}

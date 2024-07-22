@@ -81,6 +81,7 @@ export function CodeTransition({
 			fontSize: 40,
 			lineHeight: 1.5,
 			fontFamily,
+			tabSize: 3,
 		};
 	}, []);
 
