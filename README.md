@@ -25,6 +25,11 @@ npm i
 npm start
 ```
 
+**Change code snippets**
+
+The snippets are located in the `public` folder.  
+Change the code or create new files in there.
+
 **Render video**
 
 ```console
