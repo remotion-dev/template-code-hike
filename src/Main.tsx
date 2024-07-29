@@ -9,9 +9,10 @@ import {RefreshOnCodeChange} from './ReloadOnCodeChange';
 export type Props = {
 	steps: HighlightedCode[] | null;
 	themeColors: ThemeColors | null;
+	codeWidth: number | null;
 };
 
-export const Main = ({steps, themeColors}: Props) => {
+export const Main = ({steps, themeColors, codeWidth}: Props) => {
 	if (!steps) {
 		throw new Error('Steps are not defined');
 	}
@@ -36,27 +37,34 @@ export const Main = ({steps, themeColors}: Props) => {
 		};
 	}, []);
 
+	console.log({codeWidth})
+
 	return (
 		<ThemeProvider themeColors={themeColors}>
 			<AbsoluteFill style={outerStyle}>
-				<ProgressBar steps={steps} />
-				<AbsoluteFill style={style}>
-					<Series>
-						{steps.map((step, index) => (
-							<Series.Sequence
-								key={index}
-								layout="none"
-								durationInFrames={stepDuration}
-								name={step.meta}
-							>
-								<CodeTransition
-									oldCode={steps[index - 1]}
-									newCode={step}
-									durationInFrames={transitionDuration}
-								/>
-							</Series.Sequence>
-						))}
-					</Series>
+				<AbsoluteFill style={{
+					width: codeWidth || '100%',
+					margin: 'auto',
+				}}>
+					<ProgressBar steps={steps} />
+					<AbsoluteFill style={style}>
+						<Series>
+							{steps.map((step, index) => (
+								<Series.Sequence
+									key={index}
+									layout="none"
+									durationInFrames={stepDuration}
+									name={step.meta}
+								>
+									<CodeTransition
+										oldCode={steps[index - 1]}
+										newCode={step}
+										durationInFrames={transitionDuration}
+									/>
+								</Series.Sequence>
+							))}
+						</Series>
+					</AbsoluteFill>
 				</AbsoluteFill>
 			</AbsoluteFill>
 			<RefreshOnCodeChange />

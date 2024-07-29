@@ -27,6 +27,7 @@ export const calculateMetadata: CalculateMetadataFunction<
 			steps: twoSlashedCode,
 			themeColors,
 			theme: props.theme,
+			codeWidth: props.codeWidth,
 		},
 	};
 };
