@@ -13,7 +13,7 @@ export type Props = {
 	codeWidth: number | null;
 };
 
-export const Main = ({steps, themeColors, codeWidth}: Props) => {
+export const Main: React.FC<Props> = ({steps, themeColors, codeWidth}) => {
 	if (!steps) {
 		throw new Error('Steps are not defined');
 	}

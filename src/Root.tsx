@@ -13,7 +13,10 @@ export const RemotionRoot = () => {
 				steps: null,
 				themeColors: null,
 				theme: 'github-dark' as const,
-				codeWidth: 1080,
+				codeWidth: null,
+				width: {
+					type: 'auto' as const,
+				},
 			}}
 			fps={30}
 			height={1080}

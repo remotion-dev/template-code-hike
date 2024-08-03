@@ -46,13 +46,23 @@ export const calculateMetadata: CalculateMetadataFunction<
 
 	const twoSlashedCode = await Promise.all(twoslashPromises);
 
+	const naturalWidth = codeWidth + horizontalPadding * 2;
+	const divisibleByTwo = Math.ceil(naturalWidth / 2) * 2; // MP4 requires an even width
+
+	const minimumWidth = props.width.type === 'fixed' ? 0 : 1080;
+	const minimumWidthApplied = Math.max(minimumWidth, divisibleByTwo);
+
 	return {
 		durationInFrames: contents.length * defaultStepDuration,
-		width: Math.max(1080, Math.ceil(codeWidth + horizontalPadding * 2)),
+		width:
+			props.width.type === 'fixed'
+				? Math.max(minimumWidthApplied, props.width.value)
+				: minimumWidthApplied,
 		props: {
+			theme: props.theme,
+			width: props.width,
 			steps: twoSlashedCode,
 			themeColors,
-			theme: props.theme,
 			codeWidth,
 		},
 	};
