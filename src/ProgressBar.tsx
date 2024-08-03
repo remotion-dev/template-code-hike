@@ -10,8 +10,6 @@ const Step: React.FC<{
 }> = ({index, currentStep, currentStepProgress}) => {
 	const themeColors = useThemeColors();
 
-	console.log(themeColors);
-
 	const outer: React.CSSProperties = useMemo(() => {
 		return {
 			backgroundColor:
