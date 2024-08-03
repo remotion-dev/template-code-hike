@@ -5,13 +5,15 @@ import {HighlightedCode} from 'codehike/code';
 import {ThemeColors, ThemeProvider} from './calculate-metadata/theme';
 import {useMemo} from 'react';
 import {RefreshOnCodeChange} from './ReloadOnCodeChange';
+import {verticalPadding} from './font';
 
 export type Props = {
 	steps: HighlightedCode[] | null;
 	themeColors: ThemeColors | null;
+	codeWidth: number | null;
 };
 
-export const Main = ({steps, themeColors}: Props) => {
+export const Main: React.FC<Props> = ({steps, themeColors, codeWidth}) => {
 	if (!steps) {
 		throw new Error('Steps are not defined');
 	}
@@ -32,31 +34,38 @@ export const Main = ({steps, themeColors}: Props) => {
 
 	const style: React.CSSProperties = useMemo(() => {
 		return {
-			padding: '84px 48px',
+			padding: `${verticalPadding}px 0px`,
 		};
 	}, []);
 
 	return (
 		<ThemeProvider themeColors={themeColors}>
 			<AbsoluteFill style={outerStyle}>
-				<ProgressBar steps={steps} />
-				<AbsoluteFill style={style}>
-					<Series>
-						{steps.map((step, index) => (
-							<Series.Sequence
-								key={index}
-								layout="none"
-								durationInFrames={stepDuration}
-								name={step.meta}
-							>
-								<CodeTransition
-									oldCode={steps[index - 1]}
-									newCode={step}
-									durationInFrames={transitionDuration}
-								/>
-							</Series.Sequence>
-						))}
-					</Series>
+				<AbsoluteFill
+					style={{
+						width: codeWidth || '100%',
+						margin: 'auto',
+					}}
+				>
+					<ProgressBar steps={steps} />
+					<AbsoluteFill style={style}>
+						<Series>
+							{steps.map((step, index) => (
+								<Series.Sequence
+									key={index}
+									layout="none"
+									durationInFrames={stepDuration}
+									name={step.meta}
+								>
+									<CodeTransition
+										oldCode={steps[index - 1]}
+										newCode={step}
+										durationInFrames={transitionDuration}
+									/>
+								</Series.Sequence>
+							))}
+						</Series>
+					</AbsoluteFill>
 				</AbsoluteFill>
 			</AbsoluteFill>
 			<RefreshOnCodeChange />
