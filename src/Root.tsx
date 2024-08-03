@@ -15,7 +15,7 @@ export const RemotionRoot = () => {
 				theme: 'github-dark' as const,
 				codeWidth: null,
 				width: {
-					type: 'auto' as const,
+					type: 'auto',
 				},
 			}}
 			fps={30}

@@ -7,7 +7,7 @@ export const width = z.discriminatedUnion('type', [
 	}),
 	z.object({
 		type: z.literal('fixed'),
-		value: z.number().positive().step(1).default(1080),
+		value: z.number().step(1),
 	}),
 ]);
 
