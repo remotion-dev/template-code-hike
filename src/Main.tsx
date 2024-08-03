@@ -5,6 +5,7 @@ import {HighlightedCode} from 'codehike/code';
 import {ThemeColors, ThemeProvider} from './calculate-metadata/theme';
 import {useMemo} from 'react';
 import {RefreshOnCodeChange} from './ReloadOnCodeChange';
+import {verticalPadding} from './font';
 
 export type Props = {
 	steps: HighlightedCode[] | null;
@@ -33,19 +34,19 @@ export const Main = ({steps, themeColors, codeWidth}: Props) => {
 
 	const style: React.CSSProperties = useMemo(() => {
 		return {
-			padding: '84px 48px',
+			padding: `${verticalPadding}px 0px`,
 		};
 	}, []);
-
-	console.log({codeWidth})
 
 	return (
 		<ThemeProvider themeColors={themeColors}>
 			<AbsoluteFill style={outerStyle}>
-				<AbsoluteFill style={{
-					width: codeWidth || '100%',
-					margin: 'auto',
-				}}>
+				<AbsoluteFill
+					style={{
+						width: codeWidth || '100%',
+						margin: 'auto',
+					}}
+				>
 					<ProgressBar steps={steps} />
 					<AbsoluteFill style={style}>
 						<Series>

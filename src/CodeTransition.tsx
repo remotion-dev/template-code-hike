@@ -11,11 +11,9 @@ import {
 import {applyStyle} from './utils';
 import {callout} from './annotations/Callout';
 
-import {loadFont} from '@remotion/google-fonts/RobotoMono';
 import {tokenTransitions} from './annotations/InlineToken';
 import {errorInline, errorMessage} from './annotations/Error';
-
-const {fontFamily} = loadFont();
+import {fontFamily, fontSize, tabSize} from './font';
 
 export function CodeTransition({
 	oldCode,
@@ -79,10 +77,10 @@ export function CodeTransition({
 	const style: React.CSSProperties = useMemo(() => {
 		return {
 			position: 'relative',
-			fontSize: 40,
+			fontSize,
 			lineHeight: 1.5,
 			fontFamily,
-			tabSize: 3,
+			tabSize,
 		};
 	}, []);
 
