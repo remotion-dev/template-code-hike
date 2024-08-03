@@ -6,6 +6,7 @@ import {
 } from 'codehike/code';
 import {interpolate, useCurrentFrame} from 'remotion';
 import {useThemeColors} from '../calculate-metadata/theme';
+import {mix, readableColor} from 'polished';
 
 export const callout: AnnotationHandler = {
 	name: 'callout',
@@ -31,6 +32,9 @@ export const callout: AnnotationHandler = {
 
 		const themeColors = useThemeColors();
 
+		const color = readableColor(themeColors.background);
+		const calloutColor = mix(0.08, color, themeColors.background);
+
 		return (
 			<>
 				<InnerLine merge={props} />
@@ -40,7 +44,7 @@ export const callout: AnnotationHandler = {
 						minWidth: `${column + 4}ch`,
 						marginLeft: `${indentation}ch`,
 						width: 'fit-content',
-						backgroundColor: themeColors.editor.lineHighlightBackground,
+						backgroundColor: calloutColor,
 						padding: '1rem 2rem',
 						position: 'relative',
 						marginTop: '0.25rem',
@@ -56,7 +60,7 @@ export const callout: AnnotationHandler = {
 							height: '1rem',
 							transform: 'rotate(45deg) translateY(-50%)',
 							top: '-2px',
-							backgroundColor: themeColors.editor.lineHighlightBackground,
+							backgroundColor: calloutColor,
 						}}
 					/>
 					{codeblock ? (
