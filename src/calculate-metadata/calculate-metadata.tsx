@@ -34,7 +34,6 @@ export const calculateMetadata: CalculateMetadataFunction<
 			.map((value) => value.replaceAll('\t', ' '.repeat(tabSize)).length)
 			.flat(),
 	);
-	console.log(maxCharacters);
 	const codeWidth = widthPerCharacter * maxCharacters;
 
 	const defaultStepDuration = 90;
@@ -49,7 +48,7 @@ export const calculateMetadata: CalculateMetadataFunction<
 
 	return {
 		durationInFrames: contents.length * defaultStepDuration,
-		width: Math.ceil(codeWidth + horizontalPadding * 2),
+		width: Math.max(1080, Math.ceil(codeWidth + horizontalPadding * 2)),
 		props: {
 			steps: twoSlashedCode,
 			themeColors,
