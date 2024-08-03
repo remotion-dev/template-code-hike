@@ -1,6 +1,7 @@
 import {InlineAnnotation, AnnotationHandler, InnerToken} from 'codehike/code';
 import {interpolate, useCurrentFrame} from 'remotion';
 import {useThemeColors} from '../calculate-metadata/theme';
+import {mix, readableColor} from 'polished';
 
 export const errorInline: AnnotationHandler = {
 	name: 'error',
@@ -49,6 +50,9 @@ export const errorMessage: AnnotationHandler = {
 		});
 		const themeColors = useThemeColors();
 
+		const color = readableColor(themeColors.background);
+		const calloutColor = mix(0.08, color, themeColors.background);
+
 		return (
 			<>
 				{children}
@@ -57,7 +61,7 @@ export const errorMessage: AnnotationHandler = {
 						opacity,
 						borderLeft: '4px solid red',
 						marginLeft: '-1rem',
-						backgroundColor: themeColors.editor.lineHighlightBackground,
+						backgroundColor: calloutColor,
 						padding: '1rem 2rem',
 						marginTop: '0.5rem',
 						whiteSpace: 'pre-wrap',

@@ -5,15 +5,17 @@ export function applyStyle({
 	element,
 	keyframes,
 	progress,
+	linearProgress,
 }: {
 	element: HTMLElement;
 	keyframes: TokenTransition['keyframes'];
 	progress: number;
+	linearProgress: number;
 }) {
 	const {translateX, translateY, color, opacity} = keyframes;
 
 	if (opacity) {
-		element.style.opacity = interpolate(progress, [0, 1], opacity).toString();
+		element.style.opacity = linearProgress.toString();
 	}
 	if (color) {
 		element.style.color = interpolateColors(progress, [0, 1], color);

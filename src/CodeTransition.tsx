@@ -55,16 +55,24 @@ export function CodeTransition({
 		transitions.forEach(({element, keyframes, options}) => {
 			const delay = durationInFrames * options.delay;
 			const duration = durationInFrames * options.duration;
-			const progress = interpolate(frame, [delay, delay + duration], [0, 1], {
-				extrapolateLeft: 'clamp',
-				extrapolateRight: 'clamp',
-				easing: Easing.inOut(Easing.ease),
+			const linearProgress = interpolate(
+				frame,
+				[delay, delay + duration],
+				[0, 1],
+				{
+					extrapolateLeft: 'clamp',
+					extrapolateRight: 'clamp',
+				},
+			);
+			const progress = interpolate(linearProgress, [0, 1], [0, 1], {
+				easing: Easing.bezier(0.17, 0.67, 0.76, 0.91),
 			});
 
 			applyStyle({
 				element,
 				keyframes,
 				progress,
+				linearProgress,
 			});
 		});
 		continueRender(handle);
