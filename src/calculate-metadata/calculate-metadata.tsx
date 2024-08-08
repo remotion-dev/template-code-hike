@@ -13,6 +13,7 @@ import {
 	tabSize,
 	waitUntilDone,
 } from '../font';
+import {HighlightedCode} from 'codehike/code';
 
 export const calculateMetadata: CalculateMetadataFunction<
 	Props & z.infer<typeof schema>
@@ -40,11 +41,10 @@ export const calculateMetadata: CalculateMetadataFunction<
 
 	const themeColors = await getThemeColors(props.theme);
 
-	const twoslashPromises = contents.map((step) => {
-		return processSnippet(step, props.theme);
-	});
-
-	const twoSlashedCode = await Promise.all(twoslashPromises);
+	const twoSlashedCode: HighlightedCode[] = [];
+	for (const snippet of contents) {
+		twoSlashedCode.push(await processSnippet(snippet, props.theme));
+	}
 
 	const naturalWidth = codeWidth + horizontalPadding * 2;
 	const divisibleByTwo = Math.ceil(naturalWidth / 2) * 2; // MP4 requires an even width
