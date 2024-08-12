@@ -64,7 +64,7 @@ export const callout: AnnotationHandler = {
 						}}
 					/>
 					{codeblock ? (
-						<Pre code={codeblock} style={{margin: 0}} />
+						<Pre code={codeblock} style={{margin: 0, fontFamily: inherit}} />
 					) : (
 						annotation.data.children || annotation.query
 					)}
