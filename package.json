@@ -25,10 +25,10 @@
     "@types/web": "0.0.166",
     "eslint": "8.56.0",
     "prettier": "3.3.3",
-    "typescript": "5.6.2"
+    "typescript": "5.5.4"
   },
   "scripts": {
-    "start": "remotion studio",
+    "dev": "remotion studio",
     "build": "remotion render Main out/video.mp4",
     "upgrade": "remotion upgrade",
     "test": "eslint src --ext ts,tsx,js,jsx && tsc"
