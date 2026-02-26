@@ -35,7 +35,7 @@ export const RefreshOnCodeChange: React.FC = () => {
     return () => {
       cancel();
     };
-  }, [files, env.isReadOnlyStudio]);
+  }, [files, env.isReadOnlyStudio, env.isStudio]);
 
   return null;
 };
